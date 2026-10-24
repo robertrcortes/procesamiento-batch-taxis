@@ -8,27 +8,27 @@ El programa procesa el archivo completo en una ejecución por lotes; no utiliza 
 
 ## Objetivos
 
-- Leer los registros desde un archivo Parquet.
-- Validar que existan las columnas necesarias.
-- Excluir registros que no cumplan las reglas de calidad definidas.
-- Calcular la duración de cada viaje.
-- Guardar los viajes válidos y resúmenes por zona de recogida y por hora.
-- Crear un reporte de calidad con cantidades de entrada, registros válidos y registros excluidos.
+* Leer los registros desde un archivo Parquet.
+* Validar que existan las columnas necesarias.
+* Excluir registros que no cumplan las reglas de calidad definidas.
+* Calcular la duración de cada viaje.
+* Guardar los viajes válidos y resúmenes por zona de recogida y por hora.
+* Crear un reporte de calidad con cantidades de entrada, registros válidos y registros excluidos.
 
 ## Tecnologías
 
-- Python 3
-- Apache Spark 3.5.x
-- PySpark 3.5.x
-- Java compatible con la distribución de Spark instalada
-- Archivo de entrada Parquet publicado por NYC TLC
+* Python 3
+* Apache Spark 3.5.x
+* PySpark 3.5.x
+* Java compatible con la distribución de Spark instalada
+* Archivo de entrada Parquet publicado por NYC TLC
 
 ## Estructura del repositorio
 
 ```text
 procesamiento-batch-taxis/
 ├── src/
-│   └── procesamiento_batch.py
+│   └── procesamiento\_batch.py
 ├── data/
 │   └── README.md
 ├── resultados/              # Se genera al ejecutar; no se suben resultados grandes
@@ -43,7 +43,7 @@ Los datos oficiales se encuentran en la página de NYC TLC:
 
 https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 
-Para reproducir el análisis de este ejercicio se utilizó el archivo `yellow_tripdata_2026-08.parquet`. Por su tamaño y para respetar las condiciones de distribución de datos, el archivo no se incluye en este repositorio: descárguelo desde la fuente oficial y guárdelo en una ruta local.
+Para reproducir el análisis de este ejercicio se utilizó el archivo `yellow\_tripdata\_2026-08.parquet`. Por su tamaño y para respetar las condiciones de distribución de datos, el archivo no se incluye en este repositorio: descárguelo desde la fuente oficial y guárdelo en una ruta local.
 
 ## Requisitos previos
 
@@ -65,7 +65,7 @@ python3 -m pip show pyspark
 Clone el repositorio y entre en su carpeta:
 
 ```bash
-git clone https://github.com/USUARIO/procesamiento-batch-taxis.git
+git clone https://github.com/robertrcortes/procesamiento-batch-taxis.git
 cd procesamiento-batch-taxis
 ```
 
@@ -79,24 +79,24 @@ No es necesario instalar Kafka para ejecutar el procesamiento batch.
 
 ## Descargar y ubicar los datos
 
-Descargue `yellow_tripdata_2026-08.parquet` desde la página oficial de NYC TLC y ubíquelo, por ejemplo, en la carpeta `data/`. La carpeta y el archivo de datos no se versionan en Git.
+Descargue `yellow\_tripdata\_2026-08.parquet` desde la página oficial de NYC TLC y ubíquelo, por ejemplo, en la carpeta `data/`. La carpeta y el archivo de datos no se versionan en Git.
 
 ## Ejecución
 
 Desde la raíz del repositorio, ejecute:
 
 ```bash
-spark-submit src/procesamiento_batch.py \
-  --input data/yellow_tripdata_2026-08.parquet \
+spark-submit src/procesamiento\_batch.py \\
+  --input data/yellow\_tripdata\_2026-08.parquet \\
   --output resultados
 ```
 
 En una máquina virtual donde el archivo esté ubicado en la ruta usada durante la práctica, puede ejecutar:
 
 ```bash
-spark-submit src/procesamiento_batch.py \
-  --input /home/vboxuser/bigdata/datos/yellow_tripdata_2026-08.parquet \
-  --output /home/vboxuser/bigdata/resultados_batch
+spark-submit src/procesamiento\_batch.py \\
+  --input /home/vboxuser/bigdata/datos/yellow\_tripdata\_2026-08.parquet \\
+  --output /home/vboxuser/bigdata/resultados\_batch
 ```
 
 La primera ruta indica el archivo de entrada y la segunda el directorio donde Spark escribirá los resultados.
@@ -105,12 +105,12 @@ La primera ruta indica el archivo de entrada y la segunda el directorio donde Sp
 
 El programa conserva los viajes que cumplan todas estas condiciones:
 
-- Las fechas y horas de recogida y llegada son válidas.
-- La llegada ocurre después de la recogida.
-- La duración es mayor que cero y no supera 1.440 minutos (24 horas).
-- Las zonas de recogida y llegada no son nulas.
-- La distancia del viaje es mayor que cero.
-- `fare_amount` y `total_amount` son valores no nulos y mayores o iguales a cero.
+* Las fechas y horas de recogida y llegada son válidas.
+* La llegada ocurre después de la recogida.
+* La duración es mayor que cero y no supera 1.440 minutos (24 horas).
+* Las zonas de recogida y llegada no son nulas.
+* La distancia del viaje es mayor que cero.
+* `fare\_amount` y `total\_amount` son valores no nulos y mayores o iguales a cero.
 
 Estas son reglas de calidad definidas para el ejercicio; deben describirse en el informe como criterios aplicados, no como reglas oficiales de NYC TLC.
 
@@ -118,19 +118,19 @@ Estas son reglas de calidad definidas para el ejercicio; deben describirse en el
 
 Dentro de la carpeta indicada por `--output` se crean:
 
-- `viajes_limpios/`: registros válidos en formato Parquet.
-- `resumen_por_zona/`: CSV con cantidad de viajes, distancia promedio, valor promedio y duración promedio por zona de recogida.
-- `resumen_por_hora/`: CSV con cantidad de viajes y promedios por hora.
-- `reporte_calidad_y_resumen.json`: total de registros de entrada, registros válidos, excluidos, porcentaje excluido y reglas aplicadas.
+* `viajes\_limpios/`: registros válidos en formato Parquet.
+* `resumen\_por\_zona/`: CSV con cantidad de viajes, distancia promedio, valor promedio y duración promedio por zona de recogida.
+* `resumen\_por\_hora/`: CSV con cantidad de viajes y promedios por hora.
+* `reporte\_calidad\_y\_resumen.json`: total de registros de entrada, registros válidos, excluidos, porcentaje excluido y reglas aplicadas.
 
-Spark genera carpetas que contienen los archivos `part-*` y metadatos; por eso los resultados CSV y Parquet aparecen como directorios, no como un único archivo con nombre fijo.
+Spark genera carpetas que contienen los archivos `part-\*` y metadatos; por eso los resultados CSV y Parquet aparecen como directorios, no como un único archivo con nombre fijo.
 
 ## Solución de problemas
 
-- **No existe el archivo de entrada:** verifique la ruta pasada en `--input` y que el archivo Parquet esté descargado.
-- **Faltan columnas requeridas:** revise que el archivo corresponda al conjunto de datos de viajes de taxi amarillo de NYC TLC y que incluya los campos mencionados.
-- **Error de compatibilidad de Spark/PySpark:** compruebe que las versiones sean compatibles y coincidan con la instalación local. Para el entorno de esta práctica se recomienda Spark 3.5.8 y PySpark 3.5.8.
-- **Permisos de escritura:** use una carpeta de salida sobre la que tenga permisos.
+* **No existe el archivo de entrada:** verifique la ruta pasada en `--input` y que el archivo Parquet esté descargado.
+* **Faltan columnas requeridas:** revise que el archivo corresponda al conjunto de datos de viajes de taxi amarillo de NYC TLC y que incluya los campos mencionados.
+* **Error de compatibilidad de Spark/PySpark:** compruebe que las versiones sean compatibles y coincidan con la instalación local. Para el entorno de esta práctica se recomienda Spark 3.5.8 y PySpark 3.5.8.
+* **Permisos de escritura:** use una carpeta de salida sobre la que tenga permisos.
 
 ## Referencias
 
@@ -139,3 +139,4 @@ New York City Taxi and Limousine Commission. (s. f.). *TLC trip record data*. ht
 Apache Software Foundation. (s. f.). *Spark SQL, DataFrames and Datasets guide*. https://spark.apache.org/docs/latest/sql-programming-guide.html
 
 Apache Software Foundation. (s. f.). *Submitting applications*. https://spark.apache.org/docs/latest/submitting-applications.html
+
