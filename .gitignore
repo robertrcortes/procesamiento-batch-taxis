@@ -1,0 +1,19 @@
+# Datos originales y derivados (no versionar datasets)
+data/*.parquet
+data/*.csv
+data/*.json
+
+# Resultados generados por Spark
+resultados/
+resultados_batch/
+output/
+
+# Entornos Python y temporales
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.log
+.DS_Store
+.idea/
+.vscode/
